@@ -1,0 +1,40 @@
+<div class="row mt-3 ml-3">
+  <h3><mark>商品詳細</mark></h3>
+</div>
+<div class="row">
+  <div class="col-xl-3 my-auto">
+    <%= attachment_image_tag @item, :image, size: '270x243', format: 'jpeg', fallback: "no_image.jpg" %>
+  </div>
+  <div class="col-xl-9">
+    <table class="table table-borderless">
+      <tr>
+        <th>商品名</th>
+        <td><%= @item.name %></td>
+        <tr>
+          <th>商品説明</th>
+          <td class="text-break"><%= @item.description %></td>
+        </tr>
+        <tr>
+          <th>ジャンル</th>
+          <td><%= @item.genre.name %></td>
+        </tr>
+        <tr>
+          <th>税込価格<br>(税抜価格)</th>
+          <td><%= @item.add_tax_prie.to_s(:delimited) %>円(<%= @item.price.to_s(:delimited) %>円</td>
+        </tr>
+        <tr>
+          <th>販売ステータス</th>
+          <td>
+            <% if @item.is_active == true %>
+              <div class="text-success">販売中</div>
+            <% else %>
+              <div class="text-secondary">販売停止中</div>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td><%= link_to "編集する", edit_admin_item_path(@item), class: "btn move_button motion" %></td>
+        </tr>
+    </table>
+  </div>
+</div>

@@ -4,12 +4,47 @@
     <title>NaganoCake</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
   </head>
 
-  <body>
+  <body class="d-flex flex-column vh-100">
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+        <div class="container">
+          <a class="navbar-brand" href="/"><%= image_tag( 'logo.png', size: '60x60') %></a>
+          <button class="navbar-toggler"type="button" data-toggle="collapse"data-target="#navbarSupportedContent"aria-controls="navbarSupportedContent"aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggle-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+              <% if customer_signed_in? %>
+                <li class="nav-item pt-2 text-white">ようこそ、<%= current_customer.last_name %>さん！</li>
+                <li class="nav-item ml-4"><%= link_to "My page",customers_mypage_path,class:"nav-link text-white" %></li>
+                <li class="nav-item ml-4"><%= link_to "Items",items_path,class:"nav-link text-white" %></li>
+                <li class="nav-item ml-4"><%= link_to "Cart",cart_items_path,class:"nav-link text-white" %></li>
+                <li class="nav-item ml-4"><%= link_to "Log out",destroy_customer_session_path,method: :delete,class:"nav-link text-white" %></li>
+              <% elsif admin_signed_in? %>
+                <li class="nav-item ml-4"><%= link_to "Items",admin_items_path,class:"nav-link text-white" %></li>
+                <li class="nav-item ml-4"><%= link_to "Customers",admin_customers_path,class:"nav-link text-white" %></li>
+                <li class="nav-item ml-4"><%= link_to "Orders",admin_root_path,class:"nav-link text-white" %></li>
+                <li class="nav-item ml-4"><%= link_to "Genre",admin_genres_path,class:"nav-link text-white" %></li>
+                <li class="nav-item ml-4"><%= link_to "Log out",destroy_admin_session_path,method: :delete,class:"nav-link text-white" %></li>
+              <% else %>
+                <li class="nav-item ml-4"><%= link_to "About",about_path,class:"nav-link text-white" %></li>
+                <li class="nav-item ml-4"><%= link_to "Items",items_path,class:"nav-link text-white" %></li>
+                <li class="nav-item ml-4"><%= link_to "Sign up",new_customer_registration_path,class:"nav-link text-white" %></li>
+                <li class="nav-item ml-4"><%= link_to "Log in",new_customer_session_path,class:"nav-link text-white" %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
     <%= yield %>
   </body>
 </html>

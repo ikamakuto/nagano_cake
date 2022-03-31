@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col m-3">
+    <h3><mark>注文履歴詳細</mark></h3>
+
+  <div class="row">
+    <div class="col-7">
+      <h4 class="mt-3"><strog>注文情報</strog></h4>
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td class="table-color">注文日</td>
+            <td><%= @order.created_at.strftime('%Y/%m/%d') %></td>
+          </tr>
+          <tr>
+            <td class="table-color">配送先</td>
+            <td>〒<%= @order.postal_code %></br>
+              <%= @order.address %></br>
+              <%= @order.name %>
+            </td>
+          </tr>
+          <tr>
+            <td class="table-color">支払い方法</td>
+            <td><%= @order.payment_method_i18n %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-4">
+      <h4 class="mt-3"><strog>請求情報</strog></h4>
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td class="table-color">商品合計</td>
+            <td><%= (@order.total_prayment-@order.shipping_fee).to_s(:delimited) %>円</td>
+          </tr>
+          <tr>
+            <td class="table-color">配送料</td>
+            <td><%= @order.shipping_fee %>円</td>
+          </tr>
+          <tr>
+            <th class="table-color">ご請求額</th>
+            <td><%= @order.total_prayment.to_s(:delimited) %>円</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-11">
+      <h4 class="mt-3"><strog>注文内容</strog></h4>
+      <table class="table table-bordered">
+        <tbody>
+          <tr class="table-color">
+            <td>商品</td>
+            <td>単価（税込）</td>
+            <td>個数</td>
+            <td>小計</td>
+          </tr>
+          <%= @order.order_items.each do |order_item| %>
+            <tr>
+              <td><%= order_item.item.name %></td>
+              <td><%= order_item.add_tax_price.to_s(:delimited) %>円</td>
+              <td><%= order_item.amount %>個</td>
+              <td><%= order_item.sum_of_order_price.to_s(:delimited) %>円</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+</div>
